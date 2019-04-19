@@ -2,6 +2,7 @@ package com.example.asa;
 
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.icu.text.Collator;
 import android.service.autofill.FillEventHistory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,8 +31,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login<MyStringRequest> extends AppCompatActivity {
+
     EditText editTextUsername, editTextPassword;
-    private static final String URL_FOR_LOGIN = "http://www.novaproget.com/.....php";
+    private static final String URL_FOR_LOGIN = "http://xxxxxxxxx/user.php";
     private static final String TAG = "RegisterActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,29 +86,27 @@ private void check(String username,String password){
 
     private void loginUser( final String email, final String password) {
         final TextView txtresult = (TextView) findViewById(R.id.textView2);
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, URL_FOR_LOGIN, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //This code is executed if the server responds, whether or not the response contains data.
-                //The String 'response' contains the server's response.
-                txtresult.setText("Response is: "+ response.substring(0,500));
-            }
-        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //This code is executed if there is an error.
-            }
-        }) {
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                MyData.put("email", email); //Add the data you'd like to send to the server.
-                MyData.put("password", password); //Add the data you'd like to send to the server.
-                return MyData;
-            }
-        };
 
-        MyRequestQueue.add(MyStringRequest);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST,URL_FOR_LOGIN , null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        txtresult.setText("Response: " + response.toString());
+                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        txtresult.setText("Response: " + error.toString());
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+// Access the RequestQueue through your singleton class.
+       MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
 
