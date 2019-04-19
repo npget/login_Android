@@ -92,6 +92,8 @@ private void check(String username,String password){
             //Populate the request parameters
             request.put("email", email);
             request.put("password", password);
+            request.put("Content-Type", "application/json");
+            request.put("Accept", "application/json");
 
         } catch (JSONException e) {
             e.printStackTrace();
