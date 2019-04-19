@@ -35,7 +35,8 @@ class DB_Connection {
 		
 		public function does_user_exist($email,$password)
 		{
-            $pwd=md5($password);
+            $pwd=md5(mysqli_real_escape_string($password));
+            $email=mysqli_real_escape_string($email);
 			$query = "Select * from utenti_store where utenti_store='$email' and pwd_store = '$pwd' ";
 			$result = mysqli_query($this->connection, $query);
 			if(mysqli_num_rows($result)>0){
