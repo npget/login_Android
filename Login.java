@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class Login<MyStringRequest> extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;
-    private static final String URL_FOR_LOGIN = "http://www.novaproget.com/archistore/_/web_service/user.php";
+    private static final String URL_FOR_LOGIN = "http://www.novaproget.com/.....php";
     private static final String TAG = "RegisterActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
