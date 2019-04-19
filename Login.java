@@ -33,7 +33,7 @@ import java.util.Map;
 public class Login<MyStringRequest> extends AppCompatActivity {
 
     EditText editTextUsername, editTextPassword;
-    private static final String URL_FOR_LOGIN = "http://xxxxxxxxx/user.php";
+    private static final String URL_FOR_LOGIN = "http://www.nomeserver.com/archistore/_/web_service/user.php";
     private static final String TAG = "RegisterActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +87,17 @@ private void check(String username,String password){
     private void loginUser( final String email, final String password) {
         final TextView txtresult = (TextView) findViewById(R.id.textView2);
 
+        JSONObject request = new JSONObject();
+        try {
+            //Populate the request parameters
+            request.put("email", email);
+            request.put("password", password);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST,URL_FOR_LOGIN , null, new Response.Listener<JSONObject>() {
+                (Request.Method.POST,URL_FOR_LOGIN , request, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
